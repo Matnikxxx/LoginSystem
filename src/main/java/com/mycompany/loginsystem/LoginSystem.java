@@ -29,7 +29,7 @@ public boolean checkPasswordComplexity(String password) {
         return false;
     }
 
-    // flags to track what we find
+    // all requirments are intially false
     boolean hasUpper = false;
     boolean hasNumber = false;
     boolean hasSpecial = false;
@@ -37,7 +37,7 @@ public boolean checkPasswordComplexity(String password) {
     // loop through each character
     for (int i = 0; i < password.length(); i++) {
 
-        char ch = password.charAt(i); // get one character
+        char ch = password.charAt(i); // get one character at a time
 
         // check uppercase
         if (Character.isUpperCase(ch)) {
