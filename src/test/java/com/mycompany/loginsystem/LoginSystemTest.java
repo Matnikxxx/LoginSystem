@@ -1,135 +1,124 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package com.mycompany.loginsystem;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author Student
- */
-public class LoginSystemTest {
-    
-    public LoginSystemTest() {
+class LoginSystemTest {
+
+    private LoginSystem loginSystem;
+
+    @BeforeEach
+    void setUp() {
+        loginSystem = new LoginSystem();
     }
 
-    @org.junit.jupiter.api.BeforeAll
-    public static void setUpClass() throws Exception {
+    // username Tests
+    @Test
+    void testValidUsername() {
+        assertTrue(loginSystem.checkUserName("a_bcd"));
     }
 
-    @org.junit.jupiter.api.AfterAll
-    public static void tearDownClass() throws Exception {
+    @Test
+    void testUsernameTooLong() {
+        assertFalse(loginSystem.checkUserName("abc_def"));
     }
 
-    @org.junit.jupiter.api.BeforeEach
-    public void setUp() throws Exception {
+    @Test
+    void testUsernameMissingUnderscore() {
+        assertFalse(loginSystem.checkUserName("abcde"));
     }
 
-    @org.junit.jupiter.api.AfterEach
-    public void tearDown() throws Exception {
+    //password Tests
+    void testValidPassword() {
+        assertTrue(loginSystem.checkPasswordComplexity("Abcdef1!"));
     }
 
-
-    /**
-     * Test of checkUserName method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testCheckUserName() {
-        System.out.println("checkUserName");
-        String username = "";
-        LoginSystem instance = new LoginSystem();
-        boolean expResult = false;
-        boolean result = instance.checkUserName(username);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    void testPasswordTooShort() {
+        assertFalse(loginSystem.checkPasswordComplexity("A1!b"));
     }
 
-    /**
-     * Test of checkPasswordComplexity method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testCheckPasswordComplexity() {
-        System.out.println("checkPasswordComplexity");
-        String password = "";
-        LoginSystem instance = new LoginSystem();
-        boolean expResult = false;
-        boolean result = instance.checkPasswordComplexity(password);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    void testPasswordMissingUppercase() {
+        assertFalse(loginSystem.checkPasswordComplexity("abcdef1!"));
     }
 
-    /**
-     * Test of checkCellphoneNumber method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testCheckCellphoneNumber() {
-        System.out.println("checkCellphoneNumber");
-        String cellphone = "";
-        LoginSystem instance = new LoginSystem();
-        boolean expResult = false;
-        boolean result = instance.checkCellphoneNumber(cellphone);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    void testPasswordMissingNumber() {
+        assertFalse(loginSystem.checkPasswordComplexity("Abcdefg!"));
     }
 
-    /**
-     * Test of registerUser method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testRegisterUser() {
-        System.out.println("registerUser");
-        String username = "";
-        String password = "";
-        String firstName = "";
-        String lastName = "";
-        String cellphone = "";
-        LoginSystem instance = new LoginSystem();
-        String expResult = "";
-        String result = instance.registerUser(username, password, firstName, lastName, cellphone);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    void testPasswordMissingSpecialCharacter() {
+        assertFalse(loginSystem.checkPasswordComplexity("Abcdefg1"));
     }
 
-    /**
-     * Test of loginUser method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testLoginUser() {
-        System.out.println("loginUser");
-        String username = "";
-        String password = "";
-        LoginSystem instance = new LoginSystem();
-        boolean expResult = false;
-        boolean result = instance.loginUser(username, password);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    // cellphone Tests 
+    @Test
+    void testValidCellphone() {
+        assertTrue(loginSystem.checkCellphoneNumber("+27831234567"));
     }
 
-    /**
-     * Test of returnLoginStatus method, of class LoginSystem.
-     */
-    @org.junit.jupiter.api.Test
-    public void testReturnLoginStatus() {
-        System.out.println("returnLoginStatus");
-        boolean status = false;
-        LoginSystem instance = new LoginSystem();
-        String expResult = "";
-        String result = instance.returnLoginStatus(status);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    void testCellphoneMissingCountryCode() {
+        assertFalse(loginSystem.checkCellphoneNumber("0831234567"));
     }
-    
+
+    @Test
+    void testCellphoneWrongLength() {
+        assertFalse(loginSystem.checkCellphoneNumber("+27831234"));
+    }
+
+    // Registration Tests
+    @Test
+    void testSuccessfulRegistration() {
+        String result = loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertEquals("User has been registered successfully.", result);
+    }
+
+    @Test
+    void testRegistrationInvalidUsername() {
+        String result = loginSystem.registerUser("abcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertTrue(result.contains("Username is not correctly formatted"));
+    }
+
+    @Test
+    void testRegistrationInvalidPassword() {
+        String result = loginSystem.registerUser("a_bcd", "abcdefg1", "John", "Doe", "+27831234567");
+        assertTrue(result.contains("Password is not correctly formatted"));
+    }
+
+    @Test
+    void testRegistrationInvalidCellphone() {
+        String result = loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "0831234567");
+        assertTrue(result.contains("Cell phone number incorrectly formatted"));
+    }
+
+    // login Tests 
+    @Test
+    void testSuccessfulLogin() {
+        loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertTrue(loginSystem.loginUser("a_bcd", "Abcdef1!"));
+    }
+
+    @Test
+    void testFailedLoginWrongUsername() {
+        loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertFalse(loginSystem.loginUser("wrong", "Abcdef1!"));
+    }
+
+    @Test
+    void testFailedLoginWrongPassword() {
+        loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertFalse(loginSystem.loginUser("a_bcd", "wrongpass"));
+    }
+
+    //Login Status Message Tests 
+    @Test
+    void testReturnLoginStatusSuccess() {
+        loginSystem.registerUser("a_bcd", "Abcdef1!", "John", "Doe", "+27831234567");
+        assertEquals("Welcome John Doe", loginSystem.returnLoginStatus(true));
+    }
+
 }

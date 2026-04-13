@@ -42,7 +42,7 @@ public class user {
     // show result
     System.out.println(message);
 
-    // ===== LOGIN (only if registered) =====
+    //login
     if (message.equals("User has been registered successfully.")) {
 
         System.out.println("\n=== Login ===");
