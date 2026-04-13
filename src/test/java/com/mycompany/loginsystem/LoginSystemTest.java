@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertion
 public class LoginSystemTest {
 
 LoginSystem system = new LoginSystem();
+//username tests
 
 
 
@@ -18,7 +19,7 @@ public void testUsernameIncorrect() {
     assertFalse(system.checkUserName("kyle!!!!!!!"));
 }
 
-
+//password tests
 @Test
 public void testPasswordCorrect() {
     assertTrue(system.checkPasswordComplexity("Ch&&sec@ke99!"));
@@ -29,7 +30,7 @@ public void testPasswordIncorrect() {
     assertFalse(system.checkPasswordComplexity("password"));
 }
 
-
+//cellphone tests
 
 @Test
 public void testCellphoneCorrect() {
@@ -42,7 +43,7 @@ public void testCellphoneIncorrect() {
 }
 
 
-
+//register tests
 @Test
 public void testRegisterSuccess() {
     String result = system.registerUser(
@@ -71,7 +72,7 @@ public void testRegisterUsernameFail() {
         result
     );
 }
-
+//login tests
 @Test
 public void testRegisterPasswordFail() {
     String result = system.registerUser(
@@ -104,7 +105,7 @@ public void testRegisterCellphoneFail() {
     );
 }
 
-
+//login message sent
 
 @Test
 public void testLoginSuccess() {
