@@ -6,10 +6,6 @@ package com.mycompany.loginsystem;
 
 import java.util.Scanner;
 
-/**
- *
- * @author Student
- */
 public class user {
     public static void main(String[] args) {
 
@@ -18,7 +14,7 @@ public class user {
     // create object
     LoginSystem user = new LoginSystem();
 
-    // ===== REGISTRATION =====
+    // Ask for user input in registration
     System.out.println("=== Registration ===");
 
     System.out.print("Enter username: ");
@@ -42,7 +38,7 @@ public class user {
     // show result
     System.out.println(message);
 
-    //login
+    //ask for user input in login
     if (message.equals("User has been registered successfully.")) {
 
         System.out.println("\n=== Login ===");
@@ -53,7 +49,7 @@ public class user {
         System.out.print("Enter password: ");
         String loginPassword = scan.nextLine();
 
-        // check login
+        // call out method to check login
         boolean result = user.loginUser(loginUsername, loginPassword);
 
         // display message
