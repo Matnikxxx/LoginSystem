@@ -1,0 +1,403 @@
+OPERATING SYSTEMS IN A SMALL BUSINESS ENVIRONMENT
+
+Module Code: OPSY5121/W Operating Systems 1A
+Student Name: Nicholas Mathebula
+Student Number: ST10523037
+Institution: The Independent Institute of Education (IIE)
+Date: 13 November 2026
+
+Table of Contents
+
+- Introduction
+- System Setup
+- Question One – Role of the Operating Systems
+- Question Two – Batch Processing
+- Question Three – Interactive Operating Systems
+- Question Four – Security
+- Question Five – Real Time Simulation
+- Question Six – Resource Optimisation
+- Question Seven – Hardware
+- Question Eight – Improving User Interaction
+- Challenges
+- Recommendations
+- Conclusion
+- References
+
+1. Introduction
+
+An Operating System (OS) manages hardware and software on a computer and allows users to perform various actions. It manages memory, files, applications, devices, and security [1], [5].
+
+This project will look at the different ways an OS can assist a small business. Windows 11 will be used as the main Operating System and Ubuntu Linux as a comparison.
+
+The project looks at user accounts, process management, batch processing, security, real Time Simulation, resource optimisation, hardware performance, and user interaction. This is important as it helps the business protect information, manage computers and increase productivity for employees.
+
+2. System Setup
+
+Main Operating System used: Windows 11
+
+Tools used:
+
+- Task Manager – Manage processes
+- File Explorer – Manage files
+- Device Manager – Manage devices
+- Command Prompt – Run batch scripts
+- Ubuntu Terminal – Enter Linux commands
+- Ubuntu settings – Manage users and applications
+- Python HTTP server – Simulate services
+
+[Note: All screenshots and numbers regarding the performance of the system are simulated.]
+
+3. Question One – Role of the Operating Systems
+
+An OS manages the resources of the computer and provides an interface for the user. Windows 11 has a number of tools to Manage User Accounts, processes, memory, files, and devices [1], [2].
+
+3.1 User Accounts
+
+Windows can provide different users with their own account. ApliSoft can set up an administrator account for their IT employee and set up standard user accounts for other employees.
+
+As an administrator account can make important changes to the system, whilst standard users give less privilege. This prevents any unwanted changes to the computer [1], [3].
+
+Figure 1.1 – Windows User Accounts
+
+3.2 Process & CPU Management
+
+A process is a program or task running on the computer. The Task Manager can show what applications and processes are running alongside the CPU usage.
+
+If an application freezes the user can close the task using the Task Manager. This will help the user see which applications are causing the computer to slow down [2].
+
+Figure 1.2 – Task Manager Showing Running Processes
+
+3.3 Memory Management
+
+Memory (RAM) is used to store information temporarily whilst applications are running. Windows will assign memory to different applications.
+
+If there are too many applications running there might not be enough memory available which can cause the system to slow down. The Task Manager can help the user see which applications are using lots of RAM [2].
+
+Figure 1.3 – Task Manager Showing Memory Usage
+
+3.4 File Management
+
+The File Explorer can be used to create, organise, copy, move, rename, and delete files and folders [1].
+
+ApliSoft can create folders for each department such as, Finance, Human Resources, and Customer Information. This will make it easier to find the correct document.
+
+3.5 Device Management
+
+An Operating System will manage the devices connected to the computer such as a printer, keyboard, USB drive, and monitor. On Windows, the Device Manager can be used to view devices and check drivers [2].
+
+Drivers help Windows interact with the devices connected. The Device Manager can help identify any issues with drivers or devices.
+
+3.6 Why it is important for the business
+
+Operating systems will help assist the employees at ApliSoft by managing resources, organising information, limiting access, and helping connect devices.
+
+4. Question Two – Batch Processing
+
+Batch processing can help automate multiple tasks on a computer. ApliSoft can use a batch script to copy over important files to a back-up folder.
+
+4.1 Example Batch Script
+
+@echo off
+title ApliSoft Automatic Backup
+set "SOURCE=%USERPROFILE%\Documents\ApliSoftFiles"
+set "DEST=%USERPROFILE%\Desktop\ApliSoftBackup"
+echo Starting ApliSoft Backup...
+if not exist "%SOURCE%" (
+echo The source folder does not exist.
+pause
+exit /b 1
+)
+if not exist "%DEST%" mkdir "%DEST%"
+robocopy "%SOURCE%" "%DEST%" /E /R:1 /W:1
+set "RESULT=%ERRORLEVEL%"
+if %RESULT% GEQ 8 (
+echo Backup failed please check the folders.
+pause
+exit /b %RESULT%
+)
+echo Backup Complete.
+echo Robocopy exited with code %RESULT%.
+pause
+
+Figure 2.1 – ApliSoft Backup Batch Script Code
+
+Figure 2.2 – Successful Backup Script Execution
+
+4.2 Explanation & Benefits
+
+The SOURCE and DEST variables are set to help with the script.
+
+It first checks if the source folder exists, if it doesn’t it will show an error message and end the script. If the destination folder doesn’t exist it will create the folder.
+
+The robocopy command will copy over the files. The /E flag will copy over sub-folders. The /R:1 flag will allow one retry and /W:1 will wait one second between retries.
+
+Generally exit codes of less than 8 will show there was no fatal error during the copy. Exit codes of 8 or higher will show there was an error [4].
+
+This helps save time and reduce repetition but is a simple method of copying files. There is no versioning and the business should have separate back-ups.
+
+5. Question Three – Interactive Operating Systems
+
+Both Windows 11 and Ubuntu Linux have graphical interfaces. This section will look at the differences between each OS and how they can complete common tasks [1], [5].
+
+5.1 Create Files
+
+On Windows you can create a text document using the File Explorer. On Ubuntu you can create and save documents using the Files application and text editor.
+
+Both Operating Systems can help organise the users work [1], [5].
+
+Figure 3.1 – Creating a File in Windows 11
+
+Figure 3.2 – Creating a File in Ubuntu Linux
+
+5.2 Install Software
+
+Both Windows and Ubuntu can install software. On Windows you can use the Microsoft Store or installers. Ubuntu can use the App Centre or package managers [5].
+
+For example, on Ubuntu you can type:
+
+sudo apt install vlc
+
+This will install VLC if the package sources are available and the user has the correct permissions [5].
+
+Figure 3.3 – VLC Running on Windows 11
+
+5.3 Manage Users
+
+On Windows users can be managed using the Settings. On Ubuntu there are user settings that allow administrators to add accounts and manage their privileges.
+
+Both Operating Systems can have multiple users which helps if employees are sharing computers [1], [5].
+
+Figure 3.4 – Ubuntu User Accounts Displayed in Terminal
+
+5.4 Comparison & Recommendation
+
+Feature| Windows 11| Ubuntu
+Create Files| File Explorer| Files & Text Editor
+Install Software| Store/Installers| App Centre/Package Managers
+Manage Users| Settings| User Settings
+Interface| Easy to use Graphical Interface| Graphical Interface & Terminal
+Customisation| Personalisation settings| Customise desktop
+
+Windows 11 would be a good choice for general use in the office. As it supports many applications commonly used in business. Ubuntu can be helpful if there are technical employees that use programming tools and servers.
+
+6. Question Four – Security
+
+Security can help stop employees accessing unwanted information. Windows can help Manage User Accounts, groups, and folder access [1], [3], [6].
+
+6.1 Users & Groups
+
+In this example ApliSoft will have 3 users:
+
+AdminUser – Administrator account to manage the computer.
+
+Employee1 – Standard account in the FinanceTeam group.
+
+Employee2 – Standard account not in the FinanceTeam group.
+
+The FinanceTeam group will be created and Employee1 added. Employee2 will not be added.
+
+6.2 Folder Access
+
+A folder called Finance will be created which contains confidential financial documents. The example permissions would be:
+
+Account/Group| Permission
+AdminUser| Full Control
+FinanceTeam| Modify
+Employee2| No Access
+
+The permissions can be managed by going into Properties and then Security. Windows uses access control permissions which will determine who can access the files/folders [6].
+
+Figure 4.1 – Finance Folder Permissions for Users
+
+Figure 4.2 – Administrator Permissions for Finance Folder
+
+6.3 Testing Access
+
+Employee1 should have access to the folder as they are in the FinanceTeam group. Employee2 should not have access to the folder as they do not have the correct permissions.
+
+This shows how groups and permissions can help keep confidential information secure [6].
+
+ApliSoft should limit the amount of access given to employees. Only authorised staff should have access to administrator accounts.
+
+7. Question Five – Real Time Simulation
+
+Real time systems are designed to respond to events within certain time frames. This can be demonstrated by using a local web server.
+
+This is not a true hard real time operating system.
+
+7.1 Start Server
+
+Ubuntu has the Python HTTP server module. To start the server type:
+
+python3 -m http.server 8000
+
+This will list the files in the current working directory. Python describe this as a simple HTTP server [10].
+
+Figure 5.1 – Ubuntu Python Web Server Running
+
+7.2 Access & Monitor
+
+To access the server open a browser and type:
+
+http://localhost:8000
+
+The browser will request the files and the server will show the available files or index page.
+
+You can use the top command in another terminal to monitor processes and resources.
+
+top
+
+This will help the administrator see what process is running and what the CPU and RAM usage is.
+
+The service may slow down if there are many users accessing it. The Python server is a good choice for demonstration but is not recommended for use in production as it only has basic security features [10].
+
+Figure 5.2 – ApliSoft Web Server Displayed in Browser
+
+Figure 5.3 – Running Web Server Process in Ubuntu Terminal
+
+8. Question Six – Resource Optimisation
+
+Resource optimisation will help improve how the CPU, RAM, and Storage are used on the computer. If there are high resources it can cause the computer to slow down and effect productivity.
+
+8.1 Monitor & Improve
+
+The Task Manager on Windows can show what the CPU, RAM, and Disk usage is [2]. The administrator can see which applications are using too much resources.
+
+Improvements that could be made:
+
+- Close any unnecessary applications.
+- Turn off any unnecessary applications to start.
+- Use Storage to delete temporary files.
+- Don’t have too many demanding applications open.
+
+Storage Sense can help delete temporary files [7].
+
+8.2 Before & After
+
+All of the below are simulated examples.
+
+Resource| Before| After
+CPU| 42%| 24%
+RAM| 78%| 61%
+Disk Active| 18%| 8%
+Storage Available| 18.4Gb| 20.1Gb
+
+The CPU and RAM have reduced as unnecessary applications have been closed. More storage is available as temporary files have been deleted.
+
+This can help make the computers run smoother for ApliSoft.
+
+9. Question Seven – Hardware
+
+The hardware will affect how quickly the Operating System can complete tasks. Important hardware would be the CPU, RAM, and Storage.
+
+9.1 RAM
+
+RAM is used to store information temporarily whilst applications are running. If a computer doesn’t have much RAM it may struggle if there are a lot of applications open.
+
+The more RAM the computer will be able to run more applications. 8Gb would be a good starting point for basic office use. 16Gb+ would be better for more demanding multi-tasking.
+
+9.2 HDD & SSD
+
+An HDD uses moving parts to read/write information. An SSD uses flash memory and has no moving parts.
+
+SSD’s generally have faster boot and application load times. This would be a good choice for ApliSoft.
+
+9.3 Check Specifications
+
+The Task Manager on Windows can show CPU and RAM information by going into the Performance tab.
+
+Using PowerShell you can view the physical disks by typing:
+
+Get-PhysicalDisk
+
+This will help identify what storage devices you have and what media type they are.
+
+Figure 7.1 – Computer Processor and RAM Specifications
+
+Figure 7.2 – Computer Storage Type Showing HDD
+
+9.4 Recommendations
+
+ApliSoft should look to have 8Gb of RAM for basic office computers and 16Gb+ for more demanding tasks. Use SSD storage and modern processors that can support the Operating System.
+
+ApliSoft should check what the official system requirements are for Windows 11 [8].
+
+10. Question Eight – Improving User Interaction
+
+User interaction is how users interact with the computer. A good interface will make common tasks easier.
+
+10.1 Customise Desktop
+
+Windows can be customised. You can change the background, colour, and appearance. This can make the workspace more comfortable [9].
+
+Figure 8.1 – Customised Windows 11 Desktop Background
+
+10.2 Useful Applications
+
+ApliSoft can install useful applications such as:
+
+- LibreOffice – Documents & Spreadsheets
+- VLC – Media player
+- 7-Zip – Compress & Extract
+- Web Browser – Online services
+
+Applications should be downloaded from a trusted source and kept up to date.
+
+10.3 Shortcuts
+
+Employees can pin frequently used applications to the taskbar. Or create shortcuts to important folders. This will reduce the time spent looking for frequently used tools.
+
+This can help make the computers easier to use.
+
+Figure 8.2 – Calculator Desktop Shortcut
+
+11. Challenges
+
+One challenge was understanding the different features of the Operating Systems in a business environment. Care must be taken when managing permissions, monitoring resources, and running scripts. As incorrect changes can impact the computer.
+
+It was also a challenge to compare Windows and Ubuntu due to the different tools and settings. It was also important to make sure the examples were accurate with the explanations.
+
+This highlighted the importance of planning and checking information.
+
+12. Recommendations
+
+ApliSoft should choose Operating Systems based on what the employees need. Windows 11 would be a good choice for general use in the office. Ubuntu could assist technical employees with programming and servers.
+
+ApliSoft should:
+
+- Give employees individual accounts.
+- Limit access to confidential files.
+- Perform regular back-ups.
+- Monitor CPU, RAM, and Disk usage.
+- Keep software and Operating Systems up to date.
+- Use SSD storage and enough RAM.
+
+This can help keep the working environment secure and efficient.
+
+13. Conclusion
+
+This project looked at how Operating Systems can assist a small business. Using Windows 11 and Ubuntu Linux. It covered user account management, processes, batch processing, security, real Time Simulation, resource optimisation, hardware, and user interaction.
+
+Overall Operating Systems help manage the computers, employees, applications, and information. Choosing the correct Operating Systems and keeping them well maintained can help increase security, productivity, and performance.
+
+14. References
+
+[1] Microsoft, “Manage User Accounts in Windows”. [Online]. Available: https://support.microsoft.com/en-us/windows. [Accessed: Nov. 13, 2026].
+
+[2] Microsoft, “Task Manager.” [Online]. Available: https://support.microsoft.com/en-us/windows. [Accessed: Nov. 13, 2026].
+
+[3] Microsoft, “User Account Control”. [Online]. Available: https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/. [Accessed: Nov. 13, 2026].
+
+[4] Microsoft, “Robocopy”. [Online]. Available: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy. [Accessed: Nov. 13, 2026].
+
+[5] Ubuntu Documentation Team, “Ubuntu Desktop Guide”. [Online]. Available: https://help.ubuntu.com/stable/ubuntu-help/. [Accessed: Nov. 13, 2026].
+
+[6] Microsoft, “Access Control Overview”. [Online]. Available: https://learn.microsoft.com/en-us/windows/security/identity-protection/access-control/. [Accessed: Nov. 13, 2026].
+
+[7] Microsoft, “Configure Storage Sense in Windows”. [Online]. Available: https://learn.microsoft.com/en-us/windows/configuration/storage/storage-sense. [Accessed: Nov. 13, 2026].
+
+[8] Microsoft, “Windows 11 Specifications and System Requirements.” [Online]. Available: https://www.microsoft.com/windows/windows-11-specifications. [Accessed: Nov. 13, 2026].
+
+[9] Microsoft, “Personalise Your Windows Experience”. [Online]. Available: https://support.microsoft.com/en-us/windows. [Accessed: Nov. 13, 2026].
+
+[10] Python Software Foundation, “http.server — HTTP Servers”. [Online]. Available: https://docs.python.org/3/library/http.server.html. [Accessed: Nov. 13, 2026].
