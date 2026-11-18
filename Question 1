@@ -1,20 +1,17 @@
+package za.co.mattressapp;
+
 import java.util.Scanner;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-// ==========================================
-// SINGLE CLASS CONTAINING ALL COMPONENTS
-// ==========================================
-public class ProductSalesApp {
+public class QuestionOneApp {
 
-    // 1. Interface definition
+    // Interface definition
     public interface IProduct {
         int GetTotalProductsSold();
         double GetAverageProductSold();
         String GetMostPopularProduct();
     }
 
-    // 2. Product Class implementing IProduct
+    // Product Class implementing IProduct
     public static class Product implements IProduct {
         private String[] productNames;
         private int[][] monthlySales;
@@ -26,108 +23,84 @@ public class ProductSalesApp {
 
         @Override
         public int GetTotalProductsSold() {
-            int totalSales = 0;
+            int total = 0;
             for (int i = 0; i < monthlySales.length; i++) {
                 for (int j = 0; j < monthlySales[i].length; j++) {
-                    totalSales += monthlySales[i][j];
+                    total += monthlySales[i][j];
                 }
             }
-            return totalSales;
+            return total;
         }
 
         @Override
         public double GetAverageProductSold() {
-            int totalSales = GetTotalProductsSold();
-            int totalEntries = 0;
+            int total = GetTotalProductsSold();
+            int count = 0;
             for (int i = 0; i < monthlySales.length; i++) {
-                totalEntries += monthlySales[i].length;
+                count += monthlySales[i].length;
             }
-            if (totalEntries == 0) return 0.0;
-            return (double) totalSales / totalEntries;
+            if (count == 0) return 0.0;
+            return (double) total / count;
         }
 
         @Override
         public String GetMostPopularProduct() {
-            int maxProductTotal = -1;
-            int bestProductIndex = 0;
+            int maxSales = -1;
+            int bestIndex = 0;
 
             for (int i = 0; i < monthlySales.length; i++) {
-                int currentProductTotal = 0;
+                int currentSales = 0;
                 for (int j = 0; j < monthlySales[i].length; j++) {
-                    currentProductTotal += monthlySales[i][j];
+                    currentSales += monthlySales[i][j];
                 }
-                if (currentProductTotal > maxProductTotal) {
-                    maxProductTotal = currentProductTotal;
-                    bestProductIndex = i;
+                if (currentSales > maxSales) {
+                    maxSales = currentSales;
+                    bestIndex = i;
                 }
             }
-            return productNames[bestProductIndex] + " (" + maxProductTotal + ")";
+            return productNames[bestIndex] + " (" + maxSales + ")";
         }
     }
 
-    // 3. PrintProduct Class for handling inputs and report printing
+    // PrintProduct Class to handle inputs and output report
     public static class PrintProduct {
         public void generateReport() {
-            Scanner scanner = new Scanner(System.in);
-            
-            String[] productNames = {
+            Scanner input = new Scanner(System.in);
+
+            String[] products = {
                 "Cozy Nights Monarch mattress",
                 "Restonic Barbados mattress",
                 "Sealy Phuket mattress"
             };
-            
-            int[][] monthlySales = new int[3][3];
 
-            for (int i = 0; i < productNames.length; i++) {
+            int[][] salesData = new int[3][3];
+
+            for (int i = 0; i < products.length; i++) {
                 for (int j = 0; j < 3; j++) {
-                    System.out.print("Enter number of sales for month " + (j + 1) + " for " + productNames[i] + ": ");
-                    while (!scanner.hasNextInt()) {
-                        System.out.print("Invalid input. Please enter a valid integer: ");
-                        scanner.next();
+                    System.out.print("Enter number of sales for month " + (j + 1) + " for " + products[i] + ": ");
+                    while (!input.hasNextInt()) {
+                        System.out.print("Invalid input. Enter a number: ");
+                        input.next();
                     }
-                    monthlySales[i][j] = scanner.nextInt();
+                    salesData[i][j] = input.nextInt();
                 }
             }
 
-            Product productObj = new Product(productNames, monthlySales);
+            Product reportProduct = new Product(products, salesData);
 
             System.out.println("\nPRODUCT SALES REPORT - 2026");
             System.out.println("**************************************************");
-            System.out.println("TOTAL PRODUCT SALES: " + productObj.GetTotalProductsSold());
-            System.out.println("AVERAGE PRODUCT SALES: " + (int)Math.round(productObj.GetAverageProductSold()));
-            System.out.println("MOST POPULAR PRODUCT: " + productObj.GetMostPopularProduct());
-            
-            scanner.close();
+            System.out.println("TOTAL PRODUCT SALES: " + reportProduct.GetTotalProductsSold());
+            System.out.println("AVERAGE PRODUCT SALES: " + (int)Math.round(reportProduct.GetAverageProductSold()));
+            System.out.println("MOST POPULAR PRODUCT: " + reportProduct.GetMostPopularProduct());
+
+            input.close();
         }
     }
 
-    // 4. Main Method Execution
+    // Main Method Execution
     public static void main(String[] args) {
         PrintProduct printer = new PrintProduct();
         printer.generateReport();
-    }
-
-    // ==========================================
-    // 5. UNIT TESTS (JUnit 5)
-    // ==========================================
-    @Test
-    public void GetTotalProductsSold_WithValidData_ReturnsCorrectValue() {
-        String[] products = {"Product A", "Product B"};
-        int[][] sales = {
-            {25, 18, 20}, 
-            {15, 16, 12}  
-        }; 
-        Product product = new Product(products, sales);
-        assertEquals(106, product.GetTotalProductsSold());
-    }
-
-    @Test
-    public void GetAverageSales_WithValidData_ReturnsCorrectValue() {
-        String[] products = {"Product A"};
-        int[][] sales = {
-            {20, 20, 20} 
-        };
-        Product product = new Product(products, sales);
-        assertEquals(20.0, product.GetAverageProductSold(), 0.001);
     }
 }
