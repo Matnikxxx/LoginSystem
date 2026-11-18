@@ -1,0 +1,190 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MattressSalesApp extends JFrame {
+
+    // GUI Components
+    private JTextField txtCustomerName, txtPrice;
+    private JComboBox<String> cmbProduct;
+
+    // 1. Interface definition as specified in Q.2.5
+    public interface IProductCalculations {
+        double GetVat();
+        double GetCommission();
+        double GetTotal();
+    }
+
+    // 2. ProductCalculations class implementing IProductCalculations
+    public static class ProductCalculations implements IProductCalculations {
+        private double price;
+
+        public ProductCalculations(double price) {
+            this.price = price;
+        }
+
+        @Override
+        public double GetVat() {
+            return price * 0.15; // VAT: 15% of product price
+        }
+
+        @Override
+        public double GetCommission() {
+            return price * 0.05; // Commission: 5% of product price
+        }
+
+        @Override
+        public double GetTotal() {
+            return price + GetVat() + GetCommission(); // Total: Price + VAT + Commission
+        }
+    }
+
+    // Constructor to build the GUI and Menu System
+    public MattressSalesApp() {
+        setTitle("Product App");
+        setSize(450, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+
+        // Labels
+        JLabel lblCustomer = new JLabel("Customer Name:");
+        lblCustomer.setBounds(30, 40, 120, 25);
+        add(lblCustomer);
+
+        JLabel lblProduct = new JLabel("Select Product:");
+        lblProduct.setBounds(30, 90, 120, 25);
+        add(lblProduct);
+
+        JLabel lblPrice = new JLabel("Enter Price:");
+        lblPrice.setBounds(30, 140, 120, 25);
+        add(lblPrice);
+
+        // Text Fields & Combo Box
+        txtCustomerName = new JTextField();
+        txtCustomerName.setBounds(160, 40, 220, 25);
+        add(txtCustomerName);
+
+        String[] products = {
+            "Cozy Nights Monarch",
+            "Restonic Barbados",
+            "Sealy Phuket"
+        };
+        cmbProduct = new JComboBox<>(products);
+        cmbProduct.setBounds(160, 90, 220, 25);
+        add(cmbProduct);
+
+        txtPrice = new JTextField();
+        txtPrice.setBounds(160, 140, 220, 25);
+        add(txtPrice);
+
+        // Process Button
+        JButton btnProcess = new JButton("PROCESS");
+        btnProcess.setBounds(160, 190, 220, 30);
+        add(btnProcess);
+
+        // Menu Bar Setup (Q.2.4)
+        JMenuBar menuBar = new JMenuBar();
+        
+        JMenu menuFile = new JMenu("File");
+        JMenuItem itemExit = new JMenuItem("Exit");
+        menuFile.add(itemExit);
+
+        JMenu menuTools = new JMenu("Tools");
+        JMenuItem itemProcess = new JMenuItem("Process");
+        JMenuItem itemClear = new JMenuItem("Clear");
+        menuTools.add(itemProcess);
+        menuTools.add(itemClear);
+
+        menuBar.add(menuFile);
+        menuBar.add(menuTools);
+        setJMenuBar(menuBar);
+
+        // Action Listeners
+        btnProcess.addActionListener(e -> processSalesData());
+        itemProcess.addActionListener(e -> processSalesData());
+        itemClear.addActionListener(e -> clearForm());
+        itemExit.addActionListener(e -> System.exit(0));
+    }
+
+    // Processing Logic (Calculations, Message Dialog, and File Saving)
+    private void processSalesData() {
+        try {
+            String customerName = txtCustomerName.getText().trim();
+            String productName = (String) cmbProduct.getSelectedItem();
+            
+            if (customerName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter customer name.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            double price = Double.parseDouble(txtPrice.getText().trim());
+
+            // Instantiate calculations class
+            ProductCalculations calc = new ProductCalculations(price);
+            double vat = calc.GetVat();
+            double commission = calc.GetCommission();
+            double total = calc.GetTotal();
+
+            // Format message dialog output
+            String message = String.format(
+                "Customer Name: %s\nProduct: %s\nVAT: R %.1f\nCOMMISSION: R %.1f\nTOTAL: R %.1f",
+                customerName, productName, vat, commission, total
+            );
+
+            JOptionPane.showMessageDialog(this, message, "Message", JOptionPane.INFORMATION_MESSAGE);
+
+            // Save information to data.txt
+            try (PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))) {
+                writer.println("DATA LOG");
+                writer.println("**************************************************");
+                writer.println("Customer Name: " + customerName);
+                writer.println("Product: " + productName);
+                writer.println(String.format("VAT: R %.1f", vat));
+                writer.println(String.format("COMMISSION: R %.1f", commission));
+                writer.println(String.format("TOTAL: R %.1f", total));
+                writer.println("**************************************************");
+                writer.println();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error saving to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid numeric price.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Clear Form Logic (Q.2.4)
+    private void clearForm() {
+        txtCustomerName.setText("");
+        txtPrice.setText("");
+        cmbProduct.setSelectedIndex(0);
+    }
+
+    // Main Method Execution
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new MattressSalesApp().setVisible(true);
+        });
+    }
+
+    // ==========================================
+    // 3. UNIT TESTS (JUnit 5) - Q.2.6
+    // ==========================================
+    @Test
+    public void GetVat_WithValidData_ReturnsCorrectValue() {
+        ProductCalculations calc = new ProductCalculations(3500.0);
+        assertEquals(525.0, calc.GetVat(), 0.001);
+    }
+
+    @Test
+    public void GetTotal_WithValidData_ReturnsCorrectValue() {
+        ProductCalculations calc = new ProductCalculations(3500.0);
+        // Price (3500) + VAT (525) + Commission (175) = 4200
+        assertEquals(4200.0, calc.GetTotal(), 0.001);
+    }
+}
