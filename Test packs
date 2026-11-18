@@ -1,0 +1,54 @@
+package za.co.mattressapp;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class QuestionTwoTest {
+
+    @Test
+    public void GetVat_WithValidData_ReturnsCorrectValue() {
+        QuestionTwoApp.ProductCalculations calc = new QuestionTwoApp.ProductCalculations(3500.0);
+        assertEquals(525.0, calc.GetVat(), 0.001);
+    }
+
+    @Test
+    public void GetTotal_WithValidData_ReturnsCorrectValue() {
+        QuestionTwoApp.ProductCalculations calc = new QuestionTwoApp.ProductCalculations(3500.0);
+        // 3500 + 525 (VAT) + 175 (Commission) = 4200
+        assertEquals(4200.0, calc.GetTotal(), 0.001);
+    }
+}
+
+
+package za.co.mattressapp;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class QuestionOneTest {
+
+    @Test
+    public void GetTotalProductsSold_WithValidData_ReturnsCorrectValue() {
+        String[] names = {"Mattress A", "Mattress B"};
+        int[][] sales = {
+            {10, 20, 30}, 
+            {5, 10, 15}   
+        }; 
+
+        QuestionOneApp.Product product = new QuestionOneApp.Product(names, sales);
+        assertEquals(90, product.GetTotalProductsSold());
+    }
+
+    @Test
+    public void GetAverageSales_WithValidData_ReturnsCorrectValue() {
+        String[] names = {"Mattress A"};
+        int[][] sales = {
+            {10, 20, 30} 
+        };
+
+        QuestionOneApp.Product product = new QuestionOneApp.Product(names, sales);
+        assertEquals(20.0, product.GetAverageProductSold(), 0.001);
+    }
+}
+
+
